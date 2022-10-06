@@ -1,4 +1,4 @@
-project(Gry2D)
+project(RealisticEngine)
 
 find_package(SDL2 REQUIRED)
 include_directories(${SDL2_INCLUDE_DIRS})
