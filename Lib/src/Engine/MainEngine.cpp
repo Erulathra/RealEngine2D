@@ -1,7 +1,7 @@
 
 #include "Engine/MainEngine.h"
 #include "SDL2/SDL.h"
-#include <ctime>
+#include "chrono"
 #include <SDL_image.h>
 
 #include "Engine/Actor.h"
@@ -32,19 +32,23 @@ namespace RealisticEngine {
                 return false;
         }
 
-        for (std::shared_ptr<Actor> Actor : ActorList) {
-            Actor->Start();
-        }
 
         return true;
     }
 
-    int MainEngine::GameLoop() {
+    int RealisticEngine::MainEngine::GameLoop() {
         SDL_Event event;
-        time_t StartTime = time(nullptr);
-        double DeltaSecond;
+
+        for (std::shared_ptr<RealisticEngine::Actor> Actor : ActorList) {
+            Actor->Start();
+        }
+
+        std::chrono::duration<double> DeltaSecond{};
+        auto StartTime = std::chrono::high_resolution_clock::now();
+        auto LastFrameEndTime = StartTime;
         for (;;) {
-            double FrameStartSeconds = difftime(time(nullptr), StartTime);
+            auto StartFrameTime = std::chrono::high_resolution_clock::now();
+            std::chrono::duration<double> FrameStartSeconds = StartTime - StartFrameTime;
 
             while (SDL_PollEvent(&event)) {
                 if (event.type == SDL_QUIT) {
@@ -52,20 +56,26 @@ namespace RealisticEngine {
                     return 0;
                 }
             }
+            SDL_RenderClear(Renderer);
 
             for (std::shared_ptr<Actor> Actor : ActorList) {
-                Actor->Update(DeltaSecond, FrameStartSeconds);
+                Actor->Update(DeltaSecond.count(), FrameStartSeconds.count());
+                SDL_RenderCopy(Renderer, Actor->GetTexture(), nullptr, Actor->GetShape() );
             }
 
-            SDL_RenderClear(Renderer);
             SDL_RenderPresent(Renderer);
-            DeltaSecond = FrameStartSeconds - difftime(time(nullptr), StartTime);
+            DeltaSecond = std::chrono::high_resolution_clock::now() - LastFrameEndTime;
+            LastFrameEndTime = std::chrono::high_resolution_clock::now();
         }
     }
 
     MainEngine::~MainEngine() {}
 
-    void MainEngine::SpawnActor(std::shared_ptr<Actor> Actor) {
+    void RealisticEngine::MainEngine::SpawnActor(std::shared_ptr<RealisticEngine::Actor> Actor) {
         ActorList.push_front(Actor);
+    }
+
+    SDL_Renderer *MainEngine::GetRenderer() const {
+        return Renderer;
     };
 } // RealisticEngine

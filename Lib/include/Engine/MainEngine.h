@@ -7,8 +7,8 @@
 #include <list>
 #include "SDL2/SDL.h"
 
-class Actor;
 namespace RealisticEngine {
+    class Actor;
 
     class MainEngine {
     private:
@@ -27,6 +27,8 @@ namespace RealisticEngine {
         int GameLoop();
 
         void SpawnActor(std::shared_ptr<Actor> Actor);
+
+        SDL_Renderer *GetRenderer() const;
     };
 
 } // RealisticEngine

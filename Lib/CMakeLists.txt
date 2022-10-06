@@ -6,7 +6,7 @@ find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 
 include_directories(${SDL2_INCLUDE_DIRS})
 
-add_library(${PROJECT_NAME} src/Engine/MainEngine.cpp src/Engine/Actor.cpp include/Engine/Actor.h src/Engine/SinusMovingActor.cpp include/Engine/SinusMovingActor.h)
+add_library(${PROJECT_NAME} src/Engine/MainEngine.cpp src/Engine/Actor.cpp include/Engine/Actor.h src/Engine/SinusMovingActor.cpp include/Engine/SinusMovingActor.h src/Engine/Utils.cpp include/Engine/Utils.h src/Engine/DVDActor.cpp include/Engine/DVDActor.h)
 
 INCLUDE(FindPkgConfig)
 
