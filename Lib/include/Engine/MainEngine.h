@@ -4,24 +4,29 @@
 #include <memory>
 #include <cstdint>
 #include <utility>
-#include <SDL2/SDL.h>
+#include <list>
+#include "SDL2/SDL.h"
 
+class Actor;
 namespace RealisticEngine {
 
     class MainEngine {
     private:
-        class std::shared_ptr<std::pair<uint16_t, uint16_t>> Resolution;
+        std::shared_ptr<std::pair<uint16_t, uint16_t>> Resolution;
+        std::list<std::shared_ptr<Actor>> ActorList;
 
     private:
-        SDL_Window* Window;
-        SDL_Renderer* Renderer;
-        SDL_Surface* Background;
+        SDL_Window *Window;
+        SDL_Renderer *Renderer;
 
     public:
-        explicit MainEngine();
+        MainEngine();
+        virtual ~MainEngine();
 
         bool Init();
         int GameLoop();
+
+        void SpawnActor(std::shared_ptr<Actor> Actor);
     };
 
 } // RealisticEngine

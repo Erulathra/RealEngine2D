@@ -1,12 +1,10 @@
-//
-// Created by erulathra on 05.10.22.
-//
 
 #include "Engine/MainEngine.h"
 #include "SDL2/SDL.h"
-#include <memory>
-#include <utility>
-#include <iostream>
+#include <ctime>
+#include <SDL_image.h>
+
+#include "Engine/Actor.h"
 
 namespace RealisticEngine {
     MainEngine::MainEngine() {
@@ -28,12 +26,26 @@ namespace RealisticEngine {
 
         Renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED);
         SDL_SetRenderDrawColor(Renderer, 30, 30, 46, SDL_ALPHA_OPAQUE);
+
+        if ( !(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
+                printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
+                return false;
+        }
+
+        for (std::shared_ptr<Actor> Actor : ActorList) {
+            Actor->Start();
+        }
+
         return true;
     }
 
     int MainEngine::GameLoop() {
         SDL_Event event;
+        time_t StartTime = time(nullptr);
+        double DeltaSecond;
         for (;;) {
+            double FrameStartSeconds = difftime(time(nullptr), StartTime);
+
             while (SDL_PollEvent(&event)) {
                 if (event.type == SDL_QUIT) {
                     SDL_DestroyWindow(Window);
@@ -41,8 +53,19 @@ namespace RealisticEngine {
                 }
             }
 
+            for (std::shared_ptr<Actor> Actor : ActorList) {
+                Actor->Update(DeltaSecond, FrameStartSeconds);
+            }
+
             SDL_RenderClear(Renderer);
             SDL_RenderPresent(Renderer);
+            DeltaSecond = FrameStartSeconds - difftime(time(nullptr), StartTime);
         }
     }
+
+    MainEngine::~MainEngine() {}
+
+    void MainEngine::SpawnActor(std::shared_ptr<Actor> Actor) {
+        ActorList.push_front(Actor);
+    };
 } // RealisticEngine

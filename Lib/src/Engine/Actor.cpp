@@ -1,7 +1,13 @@
-//
-// Created by erulathra on 06.10.22.
-//
-
 #include "Engine/Actor.h"
 
-Actor::Actor(SDL_Texture *texture) : Texture(texture) {}
+#include <utility>
+
+Actor::Actor(SDL_Texture *texture, Eigen::Vector2f Position): Texture(texture), Position(std::move(Position)) {
+
+}
+
+void Actor::Start() {
+
+
+}
+
