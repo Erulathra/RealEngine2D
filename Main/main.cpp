@@ -12,8 +12,8 @@ int main(int argc, char *argv[]) {
     //RealisticEngine::SinusMovingActor ActorOne();
 
     if (Engine.Init()) {
-        SDL_Texture* TextureOne = RealisticEngine::Utils::LoadTexture("Vimes.png", Engine.GetRenderer());
-        SDL_Texture* TextureTwo = RealisticEngine::Utils::LoadTexture("dvd.png", Engine.GetRenderer());
+        SDL_Texture* TextureOne = RealisticEngine::Utils::LoadTexture("res/Images/Vimes.png", Engine.GetRenderer());
+        SDL_Texture* TextureTwo = RealisticEngine::Utils::LoadTexture("res/Images/dvd.png", Engine.GetRenderer());
 
         SDL_Rect SpriteRect;
         SpriteRect.h = 32;

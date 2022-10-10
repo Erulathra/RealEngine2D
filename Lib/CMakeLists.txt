@@ -1,12 +1,21 @@
-# Set the project name
-project (Lib)
+project(Lib)
 
 find_package(SDL2 REQUIRED)
 find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 
 include_directories(${SDL2_INCLUDE_DIRS})
 
-add_library(${PROJECT_NAME} src/Engine/MainEngine.cpp src/Engine/Actor.cpp include/Engine/Actor.h src/Engine/SinusMovingActor.cpp include/Engine/SinusMovingActor.h src/Engine/Utils.cpp include/Engine/Utils.h src/Engine/DVDActor.cpp include/Engine/DVDActor.h)
+# Add source files
+file(GLOB_RECURSE SOURCE_FILES
+        *.c
+        *.cpp)
+
+# Add header files
+file(GLOB_RECURSE HEADER_FILES
+        *.h
+        *.hpp)
+
+add_library(${PROJECT_NAME} ${HEADER_FILES} ${SOURCE_FILES})
 
 INCLUDE(FindPkgConfig)
 

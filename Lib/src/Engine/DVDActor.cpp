@@ -1,7 +1,3 @@
-//
-// Created by erulathra on 07.10.22.
-//
-
 #include "Engine/DVDActor.h"
 
 void RealisticEngine::DVDActor::Start() {
