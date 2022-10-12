@@ -3,6 +3,7 @@
 #include "SDL2/SDL.h"
 #include "chrono"
 #include <SDL_image.h>
+#include <set>
 
 #include "Engine/Actor.h"
 
@@ -25,19 +26,17 @@ namespace RealisticEngine {
         }
 
         Renderer = SDL_CreateRenderer(Window, -1, SDL_RENDERER_ACCELERATED);
-        SDL_SetRenderDrawColor(Renderer, 30, 30, 46, SDL_ALPHA_OPAQUE);
 
         if ( !(IMG_Init(IMG_INIT_PNG) & IMG_INIT_PNG)) {
                 printf( "SDL_image could not initialize! SDL_image Error: %s\n", IMG_GetError() );
                 return false;
         }
 
-
         return true;
     }
 
     int RealisticEngine::MainEngine::GameLoop() {
-        SDL_Event event;
+        SDL_Event Event;
 
         for (std::shared_ptr<RealisticEngine::Actor> Actor : ActorList) {
             Actor->Start();
@@ -50,17 +49,23 @@ namespace RealisticEngine {
             auto StartFrameTime = std::chrono::high_resolution_clock::now();
             std::chrono::duration<double> FrameStartSeconds = StartTime - StartFrameTime;
 
-            while (SDL_PollEvent(&event)) {
-                if (event.type == SDL_QUIT) {
+            std::vector<SDL_Event> EventSet;
+
+            while (SDL_PollEvent(&Event)) {
+                EventSet.push_back(Event);
+
+                if (Event.type == SDL_QUIT) {
                     SDL_DestroyWindow(Window);
                     return 0;
                 }
             }
+            SDL_SetRenderDrawColor(Renderer, 30, 30, 46, SDL_ALPHA_OPAQUE);
             SDL_RenderClear(Renderer);
 
             for (std::shared_ptr<Actor> Actor : ActorList) {
-                Actor->Update(DeltaSecond.count(), FrameStartSeconds.count());
-                SDL_RenderCopy(Renderer, Actor->GetTexture(), nullptr, Actor->GetShape() );
+                Actor->Update(DeltaSecond.count(), FrameStartSeconds.count(), EventSet);
+                //if (Actor->GetTexture())
+                    //SDL_RenderCopy(Renderer, Actor->GetTexture(), nullptr, Actor->GetShape() );
             }
 
             SDL_RenderPresent(Renderer);
@@ -73,6 +78,7 @@ namespace RealisticEngine {
 
     void RealisticEngine::MainEngine::SpawnActor(std::shared_ptr<RealisticEngine::Actor> Actor) {
         ActorList.push_front(Actor);
+        Actor->SetEngine(this);
     }
 
     SDL_Renderer *MainEngine::GetRenderer() const {

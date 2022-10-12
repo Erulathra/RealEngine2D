@@ -16,8 +16,8 @@ namespace RealisticEngine {
         std::list<std::shared_ptr<Actor>> ActorList;
 
     private:
-        SDL_Window *Window;
-        SDL_Renderer *Renderer;
+        SDL_Window* Window;
+        SDL_Renderer* Renderer;
 
     public:
         MainEngine();
@@ -28,7 +28,7 @@ namespace RealisticEngine {
 
         void SpawnActor(std::shared_ptr<Actor> Actor);
 
-        SDL_Renderer *GetRenderer() const;
+        [[nodiscard]] SDL_Renderer* GetRenderer() const;
     };
 
 } // RealisticEngine

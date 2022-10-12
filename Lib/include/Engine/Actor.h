@@ -3,26 +3,26 @@
 
 #include <SDL2/SDL.h>
 #include <Eigen/Core>
+#include <memory>
+#include <vector>
 
 namespace RealisticEngine {
     class Actor {
     private:
-        SDL_Texture* Texture;
-        SDL_Rect* Shape;
         Eigen::Vector2f Position;
+    protected:
+        class MainEngine* Engine;
 
     public:
-        explicit Actor(SDL_Texture* texture, SDL_Rect* Shape, Eigen::Vector2f Position);
+        explicit Actor(Eigen::Vector2f Position);
 
         virtual void Start() = 0;
-        virtual void Update(double DeltaSeconds, double Seconds) = 0;
+        virtual void Update(double DeltaSeconds, double Seconds, std::vector<SDL_Event>& EventSet) = 0;
 
-        [[nodiscard]] SDL_Texture* GetTexture() const;
         [[nodiscard]] const Eigen::Vector2f& GetPosition() const;
-        [[nodiscard]] SDL_Rect* GetShape() const;
+        virtual void SetPosition(const Eigen::Vector2f& NewPosition);
 
-    public:
-        void SetPosition(const Eigen::Vector2f& NewPosition);
+        void SetEngine(MainEngine* NewEngine);
     };
 }
 
