@@ -1,5 +1,6 @@
 project(Lib)
 
+
 find_package(SDL2 REQUIRED)
 find_package (Eigen3 3.3 REQUIRED NO_MODULE)
 
@@ -25,3 +26,5 @@ target_link_libraries(${PROJECT_NAME} ${SDL2_LIBRARIES} ${SDL2IMAGE_LIBRARIES} E
 target_include_directories( ${PROJECT_NAME}
     PUBLIC ${PROJECT_SOURCE_DIR}/include
 )
+
+set_property(TARGET ${PROJECT_NAME} PROPERTY CXX_STANDARD 23)

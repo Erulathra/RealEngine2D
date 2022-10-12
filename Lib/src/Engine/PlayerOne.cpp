@@ -3,7 +3,9 @@
 #include "Engine/Actor.h"
 
 #include <vector>
+#include <iostream>
 #include <Eigen/Core>
+#include <cmath>
 
 void RealisticEngine::PlayerOne::Start() {
     SetPosition(Eigen::Vector2f(128.f, 128.f));
@@ -14,12 +16,14 @@ void RealisticEngine::PlayerOne::Update(double DeltaSeconds, double Seconds, std
 
     HandleEvents(EventSet);
 
-    Eigen::Vector2f MoveVector(
+    Eigen::Vector2f MoveVector (
             ActualControlState.Right - ActualControlState.Left,
             ActualControlState.Down - ActualControlState.Up
            );
 
-    SetPosition(GetPosition() + MoveVector * DeltaSeconds *  100);
+    Velocity = MoveVector * 100.f;
+
+    SetPosition(GetPosition() + Velocity * DeltaSeconds);
 }
 
 void RealisticEngine::PlayerOne::HandleEvents(std::vector<SDL_Event>& EventSet) {

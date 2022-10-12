@@ -16,7 +16,7 @@ namespace RealisticEngine {
 
     class PlayerOne: public ImageActor {
     private:
-        Eigen::Vector2f Speed;
+        Eigen::Vector2f Velocity;
 
         ControlState ActualControlState{};
     public:

@@ -20,9 +20,7 @@ int main(int argc, char *argv[]) {
 
         Engine.SpawnActor(PlayerOne);
         Engine.GameLoop();
-
     }
-
 
     SDL_Quit();
     return 0;
