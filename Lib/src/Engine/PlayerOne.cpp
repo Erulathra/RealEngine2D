@@ -1,9 +1,7 @@
 #include "Engine/PlayerOne.h"
 #include "Engine/MainEngine.h"
-#include "Engine/Actor.h"
 
 #include <vector>
-#include <iostream>
 #include <Eigen/Core>
 #include <cmath>
 
@@ -21,7 +19,10 @@ void RealisticEngine::PlayerOne::Update(double DeltaSeconds, double Seconds, std
             ActualControlState.Down - ActualControlState.Up
            );
 
-    Velocity = MoveVector * 100.f;
+    float Acceleration = 10.f;
+
+    Velocity[0] = std::lerp(Velocity[0], 100.f * MoveVector[0], DeltaSeconds * Acceleration);
+    Velocity[1] = std::lerp(Velocity[1], 100.f * MoveVector[1], DeltaSeconds * Acceleration);
 
     SetPosition(GetPosition() + Velocity * DeltaSeconds);
 }

@@ -12,7 +12,7 @@ void RealisticEngine::Actor::SetPosition(const Eigen::Vector2f& NewPosition) {
 }
 
 RealisticEngine::Actor::Actor(Eigen::Vector2f Position)
-: Position(std::move(Position)) {
+: Position(Position) {
 
 }
 

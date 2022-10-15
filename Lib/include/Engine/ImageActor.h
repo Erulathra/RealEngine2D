@@ -2,12 +2,13 @@
 #define REALISTICENGINE_IMAGEACTOR_H
 
 #include "Actor.h"
+#include <memory>
 
 namespace RealisticEngine {
 
     class ImageActor : public Actor {
         SDL_Texture* Texture;
-        SDL_Rect* Shape;
+        std::shared_ptr<SDL_Rect> Shape;
     public:
         ImageActor(const Eigen::Vector2f& Position, SDL_Texture* Texture, SDL_Rect* Shape);
 
@@ -17,8 +18,6 @@ namespace RealisticEngine {
 
         SDL_Texture* GetTexture() const;
         void SetTexture(SDL_Texture* Texture);
-        SDL_Rect* GetShape() const;
-        void SetShape(SDL_Rect* Shape);
     };
 
 }
