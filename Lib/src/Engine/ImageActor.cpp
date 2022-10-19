@@ -28,3 +28,7 @@ void RealisticEngine::ImageActor::SetPosition(const Eigen::Vector2f& NewPosition
     Shape->x = static_cast<int>(NewPosition[0] - Shape->w/2.f);
     Shape->y = static_cast<int>(NewPosition[1] - Shape->h/2.f);
 }
+
+void RealisticEngine::ImageActor::Start() {
+
+}

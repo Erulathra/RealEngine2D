@@ -20,9 +20,10 @@ void RealisticEngine::PlayerOne::Update(double DeltaSeconds, double Seconds, std
            );
 
     float Acceleration = 10.f;
+    float Speed = 300.f;
 
-    Velocity[0] = std::lerp(Velocity[0], 100.f * MoveVector[0], DeltaSeconds * Acceleration);
-    Velocity[1] = std::lerp(Velocity[1], 100.f * MoveVector[1], DeltaSeconds * Acceleration);
+    Velocity[0] = std::lerp(Velocity[0], Speed * MoveVector[0], DeltaSeconds * Acceleration);
+    Velocity[1] = std::lerp(Velocity[1], Speed * MoveVector[1], DeltaSeconds * Acceleration);
 
     SetPosition(GetPosition() + Velocity * DeltaSeconds);
 }
