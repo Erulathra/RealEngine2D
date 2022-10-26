@@ -10,15 +10,14 @@ void RealisticEngine::PlayerOne::Start() {
     SetPosition(Eigen::Vector2f(128.f, 128.f));
 }
 
-void RealisticEngine::PlayerOne::Update(double DeltaSeconds, double Seconds, std::vector<SDL_Event>& EventSet) {
+void RealisticEngine::PlayerOne::Update(double DeltaSeconds, double Seconds, std::vector<SDL_Event>& EventSet)
+{
     ImageActor::Update(DeltaSeconds, Seconds, EventSet);
 
     HandleEvents(EventSet);
 
-    Eigen::Vector2f MoveVector (
-            ActualControlState.Right - ActualControlState.Left,
-            ActualControlState.Down - ActualControlState.Up
-           );
+    Eigen::Vector2f MoveVector(ActualControlState.Right - ActualControlState.Left,
+                               ActualControlState.Down - ActualControlState.Up);
 
     float Acceleration = 10.f;
     float Speed = 300.f;
@@ -28,9 +27,26 @@ void RealisticEngine::PlayerOne::Update(double DeltaSeconds, double Seconds, std
 
     SetPosition(GetPosition() + Velocity * DeltaSeconds);
 
-    auto ResolutionVector = Eigen::Vector2f(Engine->GetResolution()->first, Engine->GetResolution()->second);
+    Eigen::Vector2f CameraLocation = Engine->CameraLocation;
+    Eigen::Vector2f CameraPlayerVector = GetPosition() - CameraLocation;
 
-    Engine->SetCameraLocation(GetPosition());
+    float CameraSpeed;
+    if (CameraPlayerVector.norm() > 50.f)
+    {
+        CameraSpeed = 10.f;
+    }
+    else
+    {
+        CameraSpeed = 5.f;
+    }
+
+    Eigen::Vector2f NewCameraLocation;
+
+    NewCameraLocation[0] = std::lerp(CameraLocation[0], GetPosition()[0], DeltaSeconds * CameraSpeed);
+    NewCameraLocation[1] = std::lerp(CameraLocation[1], GetPosition()[1], DeltaSeconds * CameraSpeed);
+
+    Engine->SetCameraLocation(NewCameraLocation);
+
 }
 
 void RealisticEngine::PlayerOne::HandleEvents(std::vector<SDL_Event>& EventSet) {
