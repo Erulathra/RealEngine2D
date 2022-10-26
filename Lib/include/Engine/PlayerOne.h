@@ -26,6 +26,7 @@ namespace RealisticEngine {
         void Start() override;
         void Update(double DeltaSeconds, double Seconds, std::vector<SDL_Event>& EventSet) override;
         void HandleEvents(std::vector<SDL_Event>& EventSet);
+
     };
 
 }

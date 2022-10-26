@@ -4,6 +4,7 @@
 #include <vector>
 #include <Eigen/Core>
 #include <cmath>
+#include <iostream>
 
 void RealisticEngine::PlayerOne::Start() {
     SetPosition(Eigen::Vector2f(128.f, 128.f));
@@ -26,6 +27,10 @@ void RealisticEngine::PlayerOne::Update(double DeltaSeconds, double Seconds, std
     Velocity[1] = std::lerp(Velocity[1], Speed * MoveVector[1], DeltaSeconds * Acceleration);
 
     SetPosition(GetPosition() + Velocity * DeltaSeconds);
+
+    auto ResolutionVector = Eigen::Vector2f(Engine->GetResolution()->first, Engine->GetResolution()->second);
+
+    Engine->SetCameraLocation(GetPosition());
 }
 
 void RealisticEngine::PlayerOne::HandleEvents(std::vector<SDL_Event>& EventSet) {

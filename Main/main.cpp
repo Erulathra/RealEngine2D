@@ -25,14 +25,14 @@ int main(int argc, char *argv[]) {
 
         std::shared_ptr<RealisticEngine::Actor> PlayerOne =
                 std::make_shared<RealisticEngine::PlayerOne>(Eigen::Vector2f(64.f, 64.f), TextureSquare, &SpriteRect);
-        std::shared_ptr<RealisticEngine::Actor> PlayerTwo =
-                std::make_shared<RealisticEngine::PlayerTwo>(Eigen::Vector2f(0.f, 0.f), TextureCircle, &SpriteRect);
+        //std::shared_ptr<RealisticEngine::Actor> PlayerTwo =
+        //        std::make_shared<RealisticEngine::PlayerTwo>(Eigen::Vector2f(0.f, 0.f), TextureCircle, &SpriteRect);
 
         std::shared_ptr<RealisticEngine::ImageMap> IMap = std::make_shared<RealisticEngine::ImageMap>(Eigen::Vector2f
                 (0.f, 0.f));
 
 
-        Engine.SpawnActor(PlayerTwo);
+        //Engine.SpawnActor(PlayerTwo);
         Engine.SpawnActor(PlayerOne);
         Engine.SpawnActor(IMap);
         IMap->LoadMap("res/map", TileDictionary);

@@ -20,8 +20,8 @@ void RealisticEngine::ImageMap::LoadMap(std::string Path, std::map<char16_t, SDL
         for (char Tile : FileLine) {
             auto TileActor = std::make_shared<ImageActor>(Eigen::Vector2f(0.f, 0.f),
                                                      TileDictionary[Tile], &SpriteRect);
-            TileActor->SetPosition(Eigen::Vector2f(32.f * CharacterNumber + 16.f, 32.f * LineNumber + 16.f));
             TileActor->SetEngine(Engine);
+            TileActor->SetPosition(Eigen::Vector2f(32.f * CharacterNumber + 16.f, 32.f * LineNumber + 16.f));
             Tiles.push_back(TileActor);
             CharacterNumber++;
         }
@@ -39,5 +39,14 @@ void RealisticEngine::ImageMap::Start() {
 void RealisticEngine::ImageMap::Update(double DeltaSeconds, double Seconds, std::vector<SDL_Event>& EventSet) {
     for (auto Tile : Tiles) {
         Tile->Update(DeltaSeconds, Seconds, EventSet);
+    }
+}
+
+void RealisticEngine::ImageMap::SetPosition(const Eigen::Vector2f& NewPosition)
+{
+    Actor::SetPosition(NewPosition);
+    for (const auto & Item: Tiles)
+    {
+        Item->SetPosition(Item->GetPosition());
     }
 }

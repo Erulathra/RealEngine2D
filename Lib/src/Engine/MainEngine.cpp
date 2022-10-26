@@ -10,6 +10,7 @@
 namespace RealisticEngine {
     MainEngine::MainEngine() {
         Resolution = std::make_shared<std::pair<uint16_t, uint16_t>>(640, 480);
+        CameraLocation = Eigen::Vector2f(0, 0);
     }
 
     bool RealisticEngine::MainEngine::Init() {
@@ -83,5 +84,25 @@ namespace RealisticEngine {
 
     SDL_Renderer *MainEngine::GetRenderer() const {
         return Renderer;
+    }
+
+    const std::shared_ptr<std::pair<uint16_t, uint16_t>>& MainEngine::GetResolution() const
+    {
+        return Resolution;
+    }
+
+    const Eigen::Vector2f& MainEngine::GetCameraLocation() const
+    {
+        return CameraLocation;
+    }
+
+    void MainEngine::SetCameraLocation(const Eigen::Vector2f& CameraLocation)
+    {
+        MainEngine::CameraLocation = CameraLocation;
+
+        for (const auto & A: ActorList)
+        {
+            A->SetPosition(A->GetPosition());
+        }
     };
 } // RealisticEngine
